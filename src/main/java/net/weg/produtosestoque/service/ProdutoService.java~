@@ -47,7 +47,7 @@ public class ProdutoService {
 
     public Produto atualizarProduto(Integer id, Produto produto) {
         produto.setId(id);
-        return repository.save(produto);
+        return criarProduto(produto);
     }
 
     public void deletarProduto(Integer id) {

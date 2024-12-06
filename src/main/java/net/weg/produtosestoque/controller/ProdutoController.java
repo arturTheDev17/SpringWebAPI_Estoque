@@ -51,6 +51,7 @@ public class ProdutoController {
             produto = service.atualizarProduto(id, produto);
             return new ResponseEntity<>( produto , HttpStatus.OK);
         } catch ( Exception e ) {
+            System.out.println( e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

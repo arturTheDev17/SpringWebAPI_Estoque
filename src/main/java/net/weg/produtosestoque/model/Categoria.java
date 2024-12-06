@@ -1,23 +1,30 @@
 package net.weg.produtosestoque.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class Categoria {
 
     @Id
-    private int id;
+    @NonNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(nullable = false)
     private String nome;
 
     private String descricao;
+
+    @ToString.Exclude
+    @JsonIgnore
+    @OneToMany( mappedBy = "categoria" )
+    private List<Produto> produtos;
 }

@@ -1,22 +1,21 @@
 package net.weg.produtosestoque.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class Fabricante {
 
     @Id
+    @NonNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
@@ -24,6 +23,8 @@ public class Fabricante {
 
     private String descricao;
 
+    @ToString.Exclude
+    @JsonIgnore
     @OneToMany( mappedBy = "fabricante" )
     private List<Produto> produtos;
 }
