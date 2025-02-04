@@ -8,15 +8,21 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(nullable = false)
     private String nome;
 
     private String descricao;
+
+    @ToString.Exclude
+    @JsonIgnore
+    @OneToMany( mappedBy = "categoria" )
+    private List<Produto> produtos;
 }
