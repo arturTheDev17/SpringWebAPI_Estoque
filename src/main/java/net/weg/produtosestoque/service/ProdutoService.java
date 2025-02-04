@@ -40,6 +40,7 @@ public class ProdutoService {
 
         Optional<Produto> produto = repository.findById(id);
         if ( produto.isPresent() ) {
+            //colocar aqui o DTO
             return produto.get();
         }
         throw new IllegalArgumentException("Produto não encontrado");
@@ -47,6 +48,7 @@ public class ProdutoService {
 
     public Produto atualizarProduto(Integer id, Produto produto) {
         produto.setId(id);
+        //return criarProduto(produto);
         return repository.save(produto);
     }
 
