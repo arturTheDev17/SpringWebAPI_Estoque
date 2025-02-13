@@ -1,6 +1,7 @@
 package net.weg.produtosestoque.service;
 
 import lombok.AllArgsConstructor;
+import net.weg.produtosestoque.model.dto.CategoriaPostRequestDTO;
 import net.weg.produtosestoque.model.entity.Categoria;
 import net.weg.produtosestoque.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,11 @@ public class CategoriaService {
         return repository.findAll();
     }
 
-    public Categoria criarCategoria(Categoria categoria) {
+    public Categoria criarCategoria(CategoriaPostRequestDTO categoriaDTO) {
+        if (repository.existsByNome(categoriaDTO.nome())) {
+            throw new IllegalArgumentException("Já existe uma categoria com o nome " + categoriaDTO.nome());
+        }
+        Categoria categoria = categoriaDTO.converter();
         return repository.save(categoria);
     }
 
@@ -32,7 +37,7 @@ public class CategoriaService {
 
     public Categoria atualizarCategoria(Integer id, Categoria categoria) {
         categoria.setId(id);
-        return criarCategoria(categoria);
+        return repository.save(categoria);
     }
 
     public void deletarCategoria(Integer id) {

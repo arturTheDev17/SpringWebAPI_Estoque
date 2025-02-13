@@ -28,9 +28,9 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> criarCategoria( @RequestBody @Valid CategoriaPostRequestDTO categoria) {
+    public ResponseEntity<Categoria> criarCategoria( @RequestBody @Valid CategoriaPostRequestDTO categoriaDTO) {
         try {
-            categoria = service.criarCategoria(categoria);
+            Categoria categoria = service.criarCategoria(categoriaDTO);
             return new ResponseEntity<>( categoria , HttpStatus.OK);
         } catch ( Exception e ) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

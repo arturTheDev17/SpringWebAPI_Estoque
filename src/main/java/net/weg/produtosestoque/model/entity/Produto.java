@@ -6,7 +6,6 @@ import lombok.*;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
@@ -14,7 +13,6 @@ import java.util.Date;
 public class Produto {
 
     @Id
-    @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -47,11 +45,11 @@ public class Produto {
     @Column(nullable = false)
     private Double medida;
 
-    @ManyToOne
+    @ManyToOne( cascade = CascadeType.PERSIST )
     @JoinColumn(nullable = false)
     private Fabricante fabricante;
 
-    @ManyToOne
+    @ManyToOne( cascade = CascadeType.ALL )
     @JoinColumn(nullable = false)
     private Categoria categoria;
 }

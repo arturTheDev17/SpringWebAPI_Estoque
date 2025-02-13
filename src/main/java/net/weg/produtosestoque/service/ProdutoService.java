@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import net.weg.produtosestoque.model.dto.ProdutoPostRequestDTO;
 import net.weg.produtosestoque.model.entity.Produto;
 import net.weg.produtosestoque.repository.ProdutoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +36,8 @@ public class ProdutoService {
         return repository.save(produto);
     }
 
-    public List<Produto> buscarTodosProdutos() {
-        return repository.findAll();
+    public Page<Produto> buscarTodosProdutos(Pageable pageable) {
+        return repository.findAll( pageable );
     }
 
     public Produto buscarProduto(Integer id) {
