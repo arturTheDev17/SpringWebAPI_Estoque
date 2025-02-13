@@ -1,7 +1,7 @@
 package net.weg.produtosestoque.service;
 
 import lombok.AllArgsConstructor;
-import net.weg.produtosestoque.model.Fabricante;
+import net.weg.produtosestoque.model.entity.Fabricante;
 import net.weg.produtosestoque.repository.FabricanteRepository;
 import org.springframework.stereotype.Service;
 

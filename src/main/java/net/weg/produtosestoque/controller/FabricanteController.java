@@ -2,7 +2,7 @@ package net.weg.produtosestoque.controller;
 
 
 import lombok.AllArgsConstructor;
-import net.weg.produtosestoque.model.Fabricante;
+import net.weg.produtosestoque.model.entity.Fabricante;
 import net.weg.produtosestoque.service.FabricanteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

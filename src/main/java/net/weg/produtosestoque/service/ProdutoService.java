@@ -1,7 +1,8 @@
 package net.weg.produtosestoque.service;
 
 import lombok.AllArgsConstructor;
-import net.weg.produtosestoque.model.Produto;
+import net.weg.produtosestoque.model.dto.ProdutoPostRequestDTO;
+import net.weg.produtosestoque.model.entity.Produto;
 import net.weg.produtosestoque.repository.ProdutoRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +15,21 @@ public class ProdutoService {
 
     private ProdutoRepository repository;
 
-    public Produto criarProduto(Produto produto) {
-        if ( repository.existsByNome(produto.getNome()) ) {
+    public Produto criarProduto(ProdutoPostRequestDTO produtoDto) {
+        if ( repository.existsByNome(produtoDto.getNome()) ) {
             throw new IllegalArgumentException
-                    ("Já existe um produto com o nome " + produto.getNome());
+                    ("Já existe um produto com o nome " + produtoDto.getNome());
         }
-        if ( produto.getPreco() <= 0 ) {
-            throw new IllegalArgumentException
-                    ("O preço do produto deve ser maior que zero");
-        }
-
-        if ( produto.getQuantidade() < 0 ) {
-            throw new IllegalArgumentException
-                    ("A quantidade do produto não pode ser negativa");
-        }
+        Produto produto = produtoDto.converter();
+//        if ( produto.getPreco() <= 0 ) {
+//            throw new IllegalArgumentException
+//                    ("O preço do produto deve ser maior que zero");
+//        }
+//
+//        if ( produto.getQuantidade() < 0 ) {
+//            throw new IllegalArgumentException
+//                    ("A quantidade do produto não pode ser negativa");
+//        }
 
         return repository.save(produto);
     }

@@ -3,48 +3,56 @@ package net.weg.produtosestoque.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.sql.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 public class Produto {
 
     @Id
+    @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
     private String nome;
 
-
+    @Column(nullable = false)
     private Date data_validade;
 
-    @Positive
+//    @Positive - deve ser manipulado na DTO/Controller
+
+    @Column(nullable = false)
     private Double preco;
 
-    @PositiveOrZero
+//    @PositiveOrZero
+    @Column(nullable = false)
     private int quantidade;
 
+    @Column(nullable = false)
     private String descricao;
 
+    @Column(unique = true)
     private String codigo_barras;
 
-    @Positive
+//    @Positive
+    @Column(nullable = false)
     private Double peso;
 
-    @Positive
+//    @Positive
+    @Column(nullable = false)
     private Double medida;
 
     @ManyToOne
+    @Column(nullable = false)
     private Fabricante fabricante;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Categoria categoria;
 }

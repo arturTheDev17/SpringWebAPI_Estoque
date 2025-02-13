@@ -1,8 +1,10 @@
 package net.weg.produtosestoque.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import net.weg.produtosestoque.model.Produto;
+import net.weg.produtosestoque.model.dto.ProdutoPostRequestDTO;
+import net.weg.produtosestoque.model.entity.Produto;
 import net.weg.produtosestoque.service.ProdutoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,9 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Produto> criarProduto( @RequestBody Produto produto) {
+    public ResponseEntity<Produto> criarProduto( @RequestBody @Valid ProdutoPostRequestDTO produtoDto) {
         try {
-            produto = service.criarProduto(produto);
+            Produto produto = service.criarProduto(produtoDto);
             return new ResponseEntity<>( produto , HttpStatus.OK);
         } catch ( Exception e ) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,7 +1,9 @@
 package net.weg.produtosestoque.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import net.weg.produtosestoque.model.Categoria;
+import net.weg.produtosestoque.model.dto.CategoriaPostRequestDTO;
+import net.weg.produtosestoque.model.entity.Categoria;
 import net.weg.produtosestoque.service.CategoriaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> criarCategoria( @RequestBody Categoria categoria) {
+    public ResponseEntity<Categoria> criarCategoria( @RequestBody @Valid CategoriaPostRequestDTO categoria) {
         try {
             categoria = service.criarCategoria(categoria);
             return new ResponseEntity<>( categoria , HttpStatus.OK);

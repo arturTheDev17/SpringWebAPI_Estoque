@@ -1,4 +1,4 @@
-package net.weg.produtosestoque.model;
+package net.weg.produtosestoque.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
