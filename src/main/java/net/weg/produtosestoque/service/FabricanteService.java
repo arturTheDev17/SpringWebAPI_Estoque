@@ -25,11 +25,7 @@ public class FabricanteService {
 
     public Fabricante buscarFabricante(Integer id) {
         Optional<Fabricante> fabricante = repository.findById(id);
-        if ( fabricante.isPresent() ) {
-            return fabricante.get();
-        }
-
-        throw new NoSuchElementException("Fabricante não encontrado");
+        return fabricante.get();
 
     }
 

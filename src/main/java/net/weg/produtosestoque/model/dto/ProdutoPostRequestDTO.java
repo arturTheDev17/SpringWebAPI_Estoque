@@ -41,17 +41,17 @@ public class ProdutoPostRequestDTO {
     private Double medida;
 
     @NotNull
-    private Fabricante fabricante;
+    private Integer fabricanteId;
 
     @NotNull
     private Categoria categoria;
 
-    public Produto converter() {
+    public Produto converter( Fabricante fabricante ) {
         return Produto.builder().nome(this.nome)
                 .data_validade(this.data_validade).preco(this.preco)
                 .quantidade(this.quantidade).descricao(this.descricao)
                 .codigo_barras(this.codigo_barras).peso(this.peso)
-                .medida(this.medida).fabricante(this.fabricante).categoria(this.categoria)
+                .medida(this.medida).fabricante(fabricante).categoria(this.categoria)
                 .build();
     }
 }

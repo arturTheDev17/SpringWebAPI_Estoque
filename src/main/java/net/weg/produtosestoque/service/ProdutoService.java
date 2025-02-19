@@ -2,7 +2,10 @@ package net.weg.produtosestoque.service;
 
 import lombok.AllArgsConstructor;
 import net.weg.produtosestoque.model.dto.ProdutoPostRequestDTO;
+import net.weg.produtosestoque.model.entity.Categoria;
+import net.weg.produtosestoque.model.entity.Fabricante;
 import net.weg.produtosestoque.model.entity.Produto;
+import net.weg.produtosestoque.repository.CategoriaRepository;
 import net.weg.produtosestoque.repository.ProdutoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,13 +19,16 @@ import java.util.Optional;
 public class ProdutoService {
 
     private ProdutoRepository repository;
+    private CategoriaService categoriaService;
+    private FabricanteService fabricanteService;
 
     public Produto criarProduto(ProdutoPostRequestDTO produtoDto) {
         if ( repository.existsByNome(produtoDto.getNome()) ) {
-            throw new IllegalArgumentException
+            throw new DuplicateEntryException
                     ("Já existe um produto com o nome " + produtoDto.getNome());
         }
-        Produto produto = produtoDto.converter();
+        Fabricante fabricante = fabricanteService.buscarFabricante( produtoDto.getFabricanteId() );
+        Produto produto = produtoDto.converter( fabricante );
 //        if ( produto.getPreco() <= 0 ) {
 //            throw new IllegalArgumentException
 //                    ("O preço do produto deve ser maior que zero");
@@ -38,6 +44,11 @@ public class ProdutoService {
 
     public Page<Produto> buscarTodosProdutos(Pageable pageable) {
         return repository.findAll( pageable );
+    }
+
+    public Page<Produto> getProdutosPorIdCategoria( Pageable pageable , Integer categoriaId ) {
+        Categoria categoria = categoriaService.buscarCategoria( categoriaId );
+        return repository.findByCategoria( pageable , categoria );
     }
 
     public Produto buscarProduto(Integer id) {
