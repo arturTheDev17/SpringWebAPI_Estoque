@@ -1,4 +1,4 @@
 package net.weg.produtosestoque.model.dto;
-
-public record ErrorResponseDTO(String mensagem , java.time.Instant instant ) {
+import java.time.Instant;
+public record ErrorResponseDTO(String mensagem , Instant instant ) {
 }

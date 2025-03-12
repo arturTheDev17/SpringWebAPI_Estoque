@@ -1,6 +1,7 @@
 package net.weg.produtosestoque.service;
 
 import lombok.AllArgsConstructor;
+import net.weg.produtosestoque.DuplicateEntryException;
 import net.weg.produtosestoque.model.dto.ProdutoPostRequestDTO;
 import net.weg.produtosestoque.model.entity.Categoria;
 import net.weg.produtosestoque.model.entity.Fabricante;
@@ -24,7 +25,7 @@ public class ProdutoService {
 
     public Produto criarProduto(ProdutoPostRequestDTO produtoDto) {
         if ( repository.existsByNome(produtoDto.getNome()) ) {
-            throw new DuplicateEntryException
+            throw new IllegalArgumentException
                     ("Já existe um produto com o nome " + produtoDto.getNome());
         }
         Fabricante fabricante = fabricanteService.buscarFabricante( produtoDto.getFabricanteId() );

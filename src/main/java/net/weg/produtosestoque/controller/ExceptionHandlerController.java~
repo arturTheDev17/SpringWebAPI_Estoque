@@ -22,5 +22,4 @@ public class ExceptionHandlerController {
     public ResponseEntity<ErrorResponseDTO> handleDuplicateEntryException(DuplicateEntryException e) {
         return new ResponseEntity<>( new ErrorResponseDTO( e.getMessage() , Instant.now() )  , HttpStatus.CONFLICT);
     }
-
 }
