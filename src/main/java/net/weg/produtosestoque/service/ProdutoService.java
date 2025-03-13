@@ -10,6 +10,8 @@ import net.weg.produtosestoque.repository.CategoriaRepository;
 import net.weg.produtosestoque.repository.ProdutoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +25,15 @@ public class ProdutoService {
     private CategoriaService categoriaService;
     private FabricanteService fabricanteService;
 
-    public Produto criarProduto(ProdutoPostRequestDTO produtoDto) {
-        if ( repository.existsByNome(produtoDto.getNome()) ) {
+
+
+    public Produto criarProduto(Produto produto) {
+        if ( repository.existsByNome(produto.getNome()) ) {
             throw new IllegalArgumentException
-                    ("Já existe um produto com o nome " + produtoDto.getNome());
+                    ("Já existe um produto com o nome " + produto.getNome());
         }
-        Fabricante fabricante = fabricanteService.buscarFabricante( produtoDto.getFabricanteId() );
-        Produto produto = produtoDto.converter( fabricante );
+//        Fabricante fabricante = fabricanteService.buscarFabricante( produtoDto.getFabricanteId() );
+//        Produto produto = produtoDto.converter( fabricante );
 //        if ( produto.getPreco() <= 0 ) {
 //            throw new IllegalArgumentException
 //                    ("O preço do produto deve ser maior que zero");
@@ -70,5 +74,27 @@ public class ProdutoService {
 
     public void deletarProduto(Integer id) {
         repository.deleteById(id);
+    }
+
+    private static Specification<Produto> filtroContendoTexto(String texto ) {
+        String finalTexto = "%" + texto + "%";
+        return (root, query, criteriaBuilder) -> {
+            criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), finalTexto.toLowerCase());
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), finalTexto.toLowerCase());
+
+        };
+    }
+
+
+    private static Specification<Produto> filtroEntreValores( Integer minimo , Integer maximo ) {
+        return (root, query, criteriaBuilder) -> {
+            return criteriaBuilder.between(root.get("preco"), minimo, maximo);
+//            criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), finalTexto.toLowerCase());
+
+        };
+    }
+
+    public List<Produto> buscarFiltrado(String texto) {
+        return repository.findAll( filtroContendoTexto(texto) );
     }
 }

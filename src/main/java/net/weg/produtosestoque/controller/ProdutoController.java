@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RequestMapping("/products")
 @RestController
@@ -32,6 +34,17 @@ public class ProdutoController {
             Pageable pageable) {
         try {
             return new ResponseEntity<>( service.buscarTodosProdutos(pageable) , HttpStatus.OK);
+        } catch ( Exception e ) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/filtro")
+    public ResponseEntity<List<Produto>> filtrado(
+            @RequestParam String texto
+    ) {
+        try {
+            return new ResponseEntity<>(service.buscarFiltrado( texto ) , HttpStatus.OK);
         } catch ( Exception e ) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -56,9 +69,9 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Produto> criarProduto( @RequestBody @Valid ProdutoPostRequestDTO produtoDto) {
+    public ResponseEntity<Produto> criarProduto( @RequestBody Produto produto) {
         try {
-            Produto produto = service.criarProduto(produtoDto);
+            produto = service.criarProduto(produto);
             return new ResponseEntity<>( produto , HttpStatus.OK);
         } catch ( Exception e ) {
             System.out.println( e.getMessage() );

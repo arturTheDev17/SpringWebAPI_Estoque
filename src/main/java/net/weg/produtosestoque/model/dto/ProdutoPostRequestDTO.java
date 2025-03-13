@@ -40,10 +40,10 @@ public class ProdutoPostRequestDTO {
     @NotNull
     private Double medida;
 
-    @NotNull
+//    @NotNull
     private Integer fabricanteId;
 
-    @NotNull
+//    @NotNull
     private Categoria categoria;
 
     public Produto converter( Fabricante fabricante ) {
