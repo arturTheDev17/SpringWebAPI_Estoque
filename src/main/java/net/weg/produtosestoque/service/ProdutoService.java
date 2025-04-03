@@ -81,10 +81,15 @@ public class ProdutoService {
         return (root, query, criteriaBuilder) -> {
             criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), finalTexto.toLowerCase());
             return criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), finalTexto.toLowerCase());
-
+//            return criteriaBuilder.conjunction();
         };
     }
 
+    private static Specification<Produto> metodo( String texto , Integer minimo , Integer maximo ) {
+        return Specification.where( filtroEntreValores(minimo, maximo).and(filtroContendoTexto(texto)));
+    }
+
+//  ATENCAO  Criar na MODEL @Component, usar a dependencia na service
 
     private static Specification<Produto> filtroEntreValores( Integer minimo , Integer maximo ) {
         return (root, query, criteriaBuilder) -> {
